@@ -1,6 +1,6 @@
 import './Calculator.css';
 import { Card } from 'antd';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import CalcButtonDisplay from '../CalcButton/CalcButtonDisplay';
 
 function Calculator() {
@@ -9,20 +9,52 @@ function Calculator() {
     const [nextValue, setNext] = useState("0");
     const [formola, setFormola] = useState("");
     const [action, setAction] = useState(null);
+    const [displayValue, setDisplay] = useState("");
 
-    useEffect(() => {}, [action, nextValue, prevValue]);
+    const percDivison = 100;
+    const singMulti = -1;
 
     const calcButtons = ["AC", "\xB1", "%", "+", 7, 8, 9,
-     "-", 4, 5, 6, "*", 1, 2, 3, "/", 0, ".", "="]
-  
+     "-", 4, 5, 6, "*", 1, 2, 3, "/", 0, ".", "="];
+    
     const CalculatorActions = {
       "/": (firstValue, secondValue) => firstValue / secondValue,
       "*": (firstValue, secondValue) => firstValue * secondValue,
       "+": (firstValue, secondValue) => firstValue + secondValue,
       "-": (firstValue, secondValue) => firstValue - secondValue,
-      "=": (firstValue, secondValue) => secondValue,
     };
 
+    const handleResult = () => {
+      let result = String(
+        CalculatorActions[action](
+        parseFloat(prevValue),
+        parseFloat(nextValue)
+      ));
+      setPrev(null);
+      setNext(result);
+      setAction(null);
+      setFormola(formola + "=" + result);
+    }
+    
+    const handleAction = (value) => {
+        if (action) {
+          setPrev(String(
+            CalculatorActions[action](
+            parseFloat(prevValue),
+            parseFloat(nextValue)
+          )));
+          setDisplay(nextValue)
+          setNext("");
+        }
+        else{
+          setPrev(nextValue);
+          setDisplay(nextValue)
+          setNext("");
+        }
+        setFormola(formola + value);
+        setAction(value);
+    };
+  
     const insertDot = () => {
       if (!/\./.test(nextValue)) {
         setNext(nextValue + ".");
@@ -31,16 +63,16 @@ function Calculator() {
     };
 
     const percentage = () => {
-      let nextVal = parseFloat(nextValue) / 100;
+      let nextVal = parseFloat(nextValue) / percDivison;
       setNext(nextVal);
       setFormola(nextVal);
       if (prevValue && nextValue === "") {
-        setPrev(parseFloat(prevValue) / 100);
+        setPrev(parseFloat(prevValue) / percDivison);
       }
     };
 
     const changeSign = () => {
-      let nextVal = parseFloat(nextValue) * (-1);
+      let nextVal = parseFloat(nextValue) * singMulti;
       setNext(nextVal);
       setFormola(nextVal);
     };
@@ -52,61 +84,30 @@ function Calculator() {
     };
   
     const handleNumer = (number) => {
-      const currNumber = (nextValue === "0" || nextValue === "" ? String(number) : nextValue + number);
-      setNext(currNumber);
+      setNext((nextValue === "0" || nextValue === "" ? String(number) : nextValue + number));
       setFormola(formola + number);
+      console.log(nextValue);
     };
 
-    const handleSigns = (value) => {
-      if (value === "AC") {
-        reset();
-      } else if (value === "\xB1") {
-        changeSign();
-      } else if (value === ".") {
-        insertDot();
-      } else if (value === "%") {
-        percentage();
-      }
-    };
- 
-    const handleNextMove = (value) => {
-      if (Number.isInteger(value)) {
-        handleNumer(parseInt(value, 10));
-      } 
-      else if (value in CalculatorActions) {
-        console.log("next action is ", value);
-        console.log("prev value is ", prevValue);
-        setPrev(nextValue);
-        setNext("");
-        setAction(value);
-        setFormola(formola + value);
-      } else {
-        handleSigns(value);
-      }
+    const operations = {
+      "AC": reset, "\xB1": changeSign, ".": insertDot, "%": percentage, "=": handleResult,
+      0: handleNumer, 1: handleNumer, 2: handleNumer, 3: handleNumer, 4: handleNumer,
+      5: handleNumer, 6: handleNumer, 7: handleNumer, 8: handleNumer, 9: handleNumer,
+      "+": handleAction, "-": handleAction, "/": handleAction, "*": handleAction, 
     };
 
-    const performAction = () => {
-      if (prevValue && nextValue && action){
-        setNext(String(
-          CalculatorActions[action](
-            parseFloat(prevValue),
-            parseFloat(nextValue)
-        )));
-        setPrev(null);
-        setAction(null);
-      }
-    };
-    
-    performAction();
     return(
         <div className="site-card-border-less-wrapper">
-        <Card className="calculator-header" extra={formola}>
-          <h2>{nextValue !== "" ? nextValue : prevValue}</h2>
+        <Card className="formola">
+          <p>{formola}</p>
+        </Card>
+        <Card className="calculator-header">
+          <h2>{nextValue || displayValue}</h2>
         </Card>
         <Card type="inner" className="calculator" bordered={false}>
             <CalcButtonDisplay 
             calcButtons={calcButtons} 
-            handleNextMove={handleNextMove}
+            operations={operations}
             />
         </Card>
       </div>

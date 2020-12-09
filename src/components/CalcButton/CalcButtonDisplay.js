@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 import CalcButton from '../CalcButton/CalcButton';
 
 
-function CalcButtonDisplay (props) {
-    const {calcButtons, handleNextMove} = props;
+function CalcButtonDisplay ({calcButtons, operations}) {
     return (
         <div>
             <Row gutter={16}>
-                {calcButtons.map((calcButton) => (
+                {calcButtons.map(calcButton => (
                     <Col key={calcButton.toString()}>
                         <CalcButton
                             className={calcButton !== 0 ? "regular-button" : "zero-button"}
-                            keyValue={calcButton}
-                            onClick={handleNextMove} 
+                            buttonText={calcButton}
+                            onClick={operations[calcButton]} 
                         />
                     </Col>
                 ))}

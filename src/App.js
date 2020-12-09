@@ -15,7 +15,7 @@ function App() {
             </Menu>
           </Header>
           <Content style={{ padding: '0 50px' , size: 90}}>
-            <br></br>
+            <br/>
             <div className="site-layout-content">
               <Calculator/>
             </div>

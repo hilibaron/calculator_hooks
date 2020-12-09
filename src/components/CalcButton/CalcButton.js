@@ -2,14 +2,15 @@ import "./CalcButton.css";
 import { Button } from 'antd';
 import PropTypes from 'prop-types'
 
-function CalcButton(props) {
-  const {className, keyValue, onClick} = props;
+function  CalcButton({ className, buttonText, onClick }) {
   return (
-    <Button type="primary" size={10}
+    <Button 
+      type="primary"
+      size={10}
       className={`${className}`}
-      onClick={() => onClick(keyValue)}
+      onClick={() => onClick(buttonText)}
     >
-      {props.keyValue}{" "}
+    {buttonText}
     </Button>
   );
 }
@@ -17,8 +18,10 @@ function CalcButton(props) {
 export default CalcButton;
 
 CalcButton.propTypes = {
-  keyValue: PropTypes.oneOfType([
+  buttonText: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-  ]) 
+  ]),
+  className: PropTypes.string,
+  onClick: PropTypes.func
 };
