@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import CalcButton from '../CalcButton/CalcButton';
 
 
-function CalcButtonDisplay ({calcButtons, operations}) {
+function CalcButtonPanel ({calcButtons, operations}) {
     return (
         <div>
             <Row gutter={16}>
@@ -21,11 +21,12 @@ function CalcButtonDisplay ({calcButtons, operations}) {
     );
 }
 
-export default CalcButtonDisplay;
+export default CalcButtonPanel;
 
-CalcButtonDisplay.propTypes = {
+CalcButtonPanel.propTypes = {
 calcButtons: PropTypes.arrayOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
 ]))
+//operations: 
 };

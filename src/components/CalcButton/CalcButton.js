@@ -2,7 +2,7 @@ import "./CalcButton.css";
 import { Button } from 'antd';
 import PropTypes from 'prop-types'
 
-function  CalcButton({ className, buttonText, onClick }) {
+function CalcButton({ className, buttonText, onClick }) {
   return (
     <Button 
       type="primary"
@@ -13,7 +13,7 @@ function  CalcButton({ className, buttonText, onClick }) {
     {buttonText}
     </Button>
   );
-}
+};
 
 export default CalcButton;
 
@@ -23,5 +23,5 @@ CalcButton.propTypes = {
     PropTypes.number,
   ]),
   className: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func.isRequired
 };
