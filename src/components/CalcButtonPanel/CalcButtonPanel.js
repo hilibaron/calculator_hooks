@@ -27,6 +27,8 @@ CalcButtonPanel.propTypes = {
 calcButtons: PropTypes.arrayOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-]))
-//operations: 
+])),
+// operations: PropTypes.shape({
+//     "": PropTypes.arrayOf(/* your type here, eg: PropTypes.number */),
+//   }) need to be continued 
 };

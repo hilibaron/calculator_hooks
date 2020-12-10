@@ -31,8 +31,8 @@ function Calculator() {
     };
 
     const handleResult = () => {
+      console.log(action);
       const result = perforemAction();
-      console.log(result);
       setPrev(null);
       setNext(result);
       setAction(null);
@@ -40,16 +40,15 @@ function Calculator() {
     }
     
     const handleAction = value => {
+      console.log("in handle action");
       if (action) {
         setPrev(perforemAction());
-        setDisplay(nextValue)
-        setNext("");
       }
       else{
         setPrev(nextValue);
-        setDisplay(nextValue)
-        setNext("");
       }
+      setDisplay(nextValue)
+      setNext("");
       setFormola(formola + value);
       setAction(value);
     };
@@ -88,13 +87,17 @@ function Calculator() {
       console.log(nextValue);
     };
 
-    const operations = {
-      "AC": reset, "\xB1": changeSign, ".": insertDot, "%": percentage, "=": handleResult,
-      0: handleNumer, 1: handleNumer, 2: handleNumer, 3: handleNumer, 4: handleNumer,
-      5: handleNumer, 6: handleNumer, 7: handleNumer, 8: handleNumer, 9: handleNumer,
-      "+": handleAction, "-": handleAction, "/": handleAction, "*": handleAction, 
+    function range(start, end) {
+      return Array(end - start + 1).fill().map((_, idx) => start + idx);
     };
-   
+
+    const _ = require('lodash'); 
+    const numbers = _.zipObject(range(0, 9), range(0, 9).fill(handleNumer));
+    const actions = _.zipObject(["+", "-", "/", "*"], range(0, 3).fill(handleAction));
+    const signs = _.zipObject(["AC", "\xB1",  ".", "%", "="],
+                 [reset, changeSign, insertDot, percentage, handleResult]);
+    const operations = Object.assign({}, actions, numbers, signs);
+
     return(
         <div className="site-card-border-less-wrapper">
         <CalcFormulaDisplay 
