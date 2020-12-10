@@ -1,0 +1,21 @@
+.regular-button {
+  width: 3.8rem;
+  height: 3.8rem;
+  margin: 0.4rem;
+  margin-left: 0.4rem;
+  text-align: center;
+  font-size: 150%;
+  border-radius: 0.8rem;
+  box-shadow: 0.1rem 0.1rem 0.1rem 0.1rem grey;
+}
+
+.zero-button {
+  width: 9.4rem;
+  height: 3.8rem;
+  margin: 0.4rem;
+  border: 0.4;
+  text-align: center;
+  font-size: 150%;
+  border-radius: 0.8rem;
+  box-shadow: 0.1rem 0.1rem 0.1rem 0.1rem grey;
+}
